@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mai mult – Pensiunea Prut</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,700;1,400&family=Open+Sans:ital,wght@0,300;0,400;0,600;1,300;1,400&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            accent: '#75A9BF', 'accent-dark': '#4E7180',
+            'text-main': '#242323', 'text-muted': '#737373', 'bg-secondary': '#F5F5F5',
+          },
+          fontFamily: {
+            serif: ['"EB Garamond"', 'Georgia', 'Palatino', 'serif'],
+            sans: ['"Open Sans"', 'sans-serif'],
+          },
+        }
+      }
+    }
+  </script>
+  <style>
+    .faq-item { border-bottom: 1px solid #EBEBEB; }
+    .faq-btn {
+      width: 100%; text-align: left;
+      padding: 16px 0; display: flex; justify-content: space-between; align-items: center;
+      font-size: 14px; font-weight: 600; color: #242323;
+      background: none; border: none; cursor: pointer;
+      font-family: 'Open Sans', sans-serif;
+    }
+    .faq-icon { font-size: 20px; color: #75A9BF; flex-shrink: 0; transition: transform .3s; }
+    .faq-body {
+      max-height: 0; overflow: hidden;
+      transition: max-height .4s cubic-bezier(.4,0,.2,1), padding .3s;
+      font-size: 13px; color: #737373; line-height: 1.7;
+    }
+    .faq-item.open .faq-body { max-height: 200px; padding-bottom: 14px; }
+    .faq-item.open .faq-icon { transform: rotate(45deg); }
+
+    .stat-card {
+      text-align: center; padding: 32px 20px;
+      border: 1px solid #E8E8E8;
+      transition: box-shadow .3s, transform .3s;
+    }
+    .stat-card:hover { box-shadow: 0 6px 24px rgba(0,0,0,.09); transform: translateY(-3px); }
+    .stat-num {
+      font-family: 'EB Garamond', Georgia, serif;
+      font-size: 48px; font-weight: 700; color: #75A9BF; line-height: 1;
+    }
+  </style>
+</head>
+<body class="bg-white">
+
+  <!-- NAV -->
+  <nav class="sticky top-0 z-50 bg-white border-b border-gray-100 shadow-sm">
+    <div class="max-w-[980px] mx-auto px-4 h-12 flex items-center gap-6">
+      <a href="index.html" class="nav-link">Home</a>
+      <a href="camere.html" class="nav-link hidden sm:inline">Camere</a>
+      <a href="restaurant.html" class="nav-link hidden md:inline">Restaurant</a>
+      <a href="facilitati.html" class="nav-link hidden md:inline">Facilități</a>
+      <a href="galerie.html" class="nav-link hidden lg:inline">Galerie</a>
+      <a href="mai-mult.html" class="nav-link current hidden lg:inline">Mai mult</a>
+      <div class="flex-1"></div>
+      <a href="index.html#contact" class="nav-link border border-[#242323] px-4 py-1.5 text-[10px] tracking-widest hover:bg-[#242323] hover:text-white transition-colors duration-200">REZERVARE</a>
+      <div class="flex items-center gap-1 border border-gray-300 px-2 py-1 cursor-pointer select-none">
+        <span style="font-size:10px;letter-spacing:.1em;">RO</span>
+        <svg width="8" height="5" viewBox="0 0 8 5" fill="none"><path d="M1 1l3 3 3-3" stroke="#242323" stroke-width="1.2" stroke-linecap="round"/></svg>
+      </div>
+    </div>
+  </nav>
+
+  <!-- BANNER -->
+  <div class="page-banner">
+    <img src="img/545201940_777141891727776_4044273546942787850_n.jpg" alt="Despre Pensiunea Prut" />
+    <div class="page-banner-overlay">
+      <h1 class="page-banner-title">Despre noi</h1>
+      <p class="page-banner-sub">Povestea pensiunii noastre</p>
+    </div>
+  </div>
+
+  <!-- ABOUT -->
+  <section class="bg-white py-14 px-6">
+    <div class="max-w-[720px] mx-auto">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+        <div>
+          <h2 data-reveal class="font-serif text-[32px] font-bold text-[#242323] mb-4">Bine ați venit la Pensiunea Prut</h2>
+          <p data-reveal data-d="1" class="text-[#737373] text-sm leading-relaxed mb-4">
+            Pensiunea Prut este o oază de liniște situată pe malul pitoresc al râului Prut,
+            în inima raionului Cahul. Cu o tradiție de ospitalitate autentică moldovenească,
+            ne propunem să transformăm fiecare vizită într-o amintire de neșters.
+          </p>
+          <p data-reveal data-d="2" class="text-[#737373] text-sm leading-relaxed mb-6">
+            Pensiunea noastră dispune de camere amenajate cu gust, un restaurant cu
+            bucătărie tradițională și o grădină generoasă unde natura se revarsă
+            liberă. Suntem la câteva minute de râul Prut și de rezervațiile naturale
+            din zonă.
+          </p>
+          <a data-reveal data-d="3" href="index.html#contact"
+             class="inline-block border border-[#242323] text-[#242323] text-[10px] tracking-widest px-7 py-2.5 uppercase hover:bg-[#242323] hover:text-white transition-colors duration-200">
+            Contactează-ne
+          </a>
+        </div>
+        <div data-reveal data-d="1" class="overflow-hidden">
+          <img src="img/511565671_17919264129104546_1491740303289331990_n.jpg"
+               alt="Pensiunea Prut"
+               class="w-full h-64 object-cover transition-transform duration-700 hover:scale-105" />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- STATS -->
+  <section class="bg-[#F5F5F5] py-14 px-6">
+    <div class="max-w-[700px] mx-auto">
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+        <div data-reveal data-d="1" class="stat-card bg-white">
+          <div class="stat-num">9+</div>
+          <p class="text-xs text-[#737373] tracking-wide uppercase mt-2">Camere</p>
+        </div>
+        <div data-reveal data-d="2" class="stat-card bg-white">
+          <div class="stat-num">5★</div>
+          <p class="text-xs text-[#737373] tracking-wide uppercase mt-2">Recenzii</p>
+        </div>
+        <div data-reveal data-d="3" class="stat-card bg-white">
+          <div class="stat-num">100%</div>
+          <p class="text-xs text-[#737373] tracking-wide uppercase mt-2">Natural</p>
+        </div>
+        <div data-reveal data-d="4" class="stat-card bg-white">
+          <div class="stat-num">24h</div>
+          <p class="text-xs text-[#737373] tracking-wide uppercase mt-2">Recepție</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- LOCATION -->
+  <section class="bg-white py-14 px-6">
+    <div class="max-w-[720px] mx-auto">
+      <h2 data-reveal class="font-serif text-[28px] font-bold text-[#242323] text-center mb-2">Cum ajungeți la noi</h2>
+      <hr data-reveal data-d="1" class="border-t border-gray-200 max-w-[50px] mx-auto my-4" />
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-10 mt-8">
+        <div data-reveal data-d="1">
+          <h3 class="font-serif text-lg font-bold mb-4">Adresa</h3>
+          <ul class="space-y-3 text-sm text-[#737373]">
+            <li class="flex gap-3"><span class="text-[#75A9BF] text-base">📍</span> s. Cahul, raionul Cahul, Republica Moldova</li>
+            <li class="flex gap-3"><span class="text-[#75A9BF] text-base">📞</span> + (373) 000 000 00</li>
+            <li class="flex gap-3"><span class="text-[#75A9BF] text-base">✉️</span> office@pensiuneaprut.md</li>
+          </ul>
+          <h3 class="font-serif text-lg font-bold mt-8 mb-4">Distanțe</h3>
+          <ul class="space-y-2 text-sm text-[#737373]">
+            <li class="flex justify-between border-b border-[#F0F0F0] pb-2"><span>Chișinău</span><span class="font-medium">~140 km</span></li>
+            <li class="flex justify-between border-b border-[#F0F0F0] pb-2"><span>Cahul (centru)</span><span class="font-medium">~5 km</span></li>
+            <li class="flex justify-between border-b border-[#F0F0F0] pb-2"><span>Râul Prut</span><span class="font-medium">~500 m</span></li>
+            <li class="flex justify-between pb-2"><span>Aeroport Chișinău</span><span class="font-medium">~145 km</span></li>
+          </ul>
+        </div>
+        <div data-reveal data-d="2">
+          <div class="overflow-hidden border border-[#E5E5E5]" style="border-radius:2px;">
+            <iframe
+              src="https://maps.google.com/maps?q=Pensiunea+Prut+Cahul+Moldova&output=embed&hl=ro&z=14"
+              width="100%"
+              height="280"
+              style="border:0; display:block;"
+              loading="lazy"
+              allowfullscreen
+              referrerpolicy="no-referrer-when-downgrade"
+              title="Locație Pensiunea Prut pe hartă"
+            ></iframe>
+          </div>
+          <a href="https://maps.google.com/?q=Pensiunea+Prut+Cahul+Moldova"
+             target="_blank" rel="noopener"
+             class="block mt-3 text-center text-xs text-[#75A9BF] tracking-wider hover:underline transition-opacity duration-200 hover:opacity-70">
+            Deschide în Google Maps →
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="bg-[#F5F5F5] py-14 px-6">
+    <div class="max-w-[620px] mx-auto">
+      <h2 data-reveal class="font-serif text-[28px] font-bold text-[#242323] text-center mb-8">Întrebări frecvente</h2>
+      <div id="faqList">
+
+        <div data-reveal class="faq-item">
+          <button class="faq-btn" onclick="toggleFaq(this)">
+            Care este ora de check-in și check-out?
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-body">Check-in: 14:00 – 22:00. Check-out: până la 12:00. Check-in timpuriu sau check-out târziu pot fi aranjate la cerere, în funcție de disponibilitate.</div>
+        </div>
+
+        <div data-reveal data-d="1" class="faq-item">
+          <button class="faq-btn" onclick="toggleFaq(this)">
+            Este inclus micul dejun în prețul cazării?
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-body">Da, micul dejun tradițional moldovenesc este inclus în prețul tuturor camerelor și se servește zilnic între 07:30 și 10:00 în restaurant.</div>
+        </div>
+
+        <div data-reveal data-d="2" class="faq-item">
+          <button class="faq-btn" onclick="toggleFaq(this)">
+            Acceptați animale de companie?
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-body">Animalele mici de companie sunt binevenite în apartamentele familiale, cu o taxă suplimentară de 50 MDL/noapte. Vă rugăm să anunțați la rezervare.</div>
+        </div>
+
+        <div data-reveal data-d="3" class="faq-item">
+          <button class="faq-btn" onclick="toggleFaq(this)">
+            Există parcare la pensiune?
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-body">Da, pensiunea dispune de parcare proprie supravegheată, gratuită pentru toți oaspeții.</div>
+        </div>
+
+        <div data-reveal data-d="4" class="faq-item">
+          <button class="faq-btn" onclick="toggleFaq(this)">
+            Puteți organiza evenimente sau nunți?
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-body">Da, organizăm nunți, botezuri, aniversări și evenimente corporate. Contactați-ne la office@pensiuneaprut.md pentru un pachet personalizat.</div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="bg-[#242323] text-white py-5 text-center">
+    <p class="text-xs tracking-wide text-gray-300 mb-1">
+      office@pensiuneaprut.md &nbsp;|&nbsp; s. Cahul, Republica Moldova &nbsp;|&nbsp; + (373) 000 000 00
+    </p>
+    <p class="text-xs text-gray-500">© 2024 Pensiunea Prut</p>
+  </footer>
+
+  <script>
+    const obs = new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('revealed'); obs.unobserve(e.target); } });
+    }, { threshold: 0.12 });
+    document.querySelectorAll('[data-reveal]').forEach(el => obs.observe(el));
+
+    function toggleFaq(btn) {
+      const item = btn.closest('.faq-item');
+      const isOpen = item.classList.contains('open');
+      document.querySelectorAll('.faq-item.open').forEach(i => i.classList.remove('open'));
+      if (!isOpen) item.classList.add('open');
+    }
+  </script>
+</body>
+</html>

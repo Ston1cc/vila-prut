@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pensiunea Prut</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,700;1,400&family=Open+Sans:ital,wght@0,300;0,400;0,600;1,300;1,400&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            accent: '#75A9BF',
+            'accent-dark': '#4E7180',
+            'text-main': '#242323',
+            'text-muted': '#737373',
+            'bg-secondary': '#F5F5F5',
+          },
+          fontFamily: {
+            serif: ['"EB Garamond"', 'Georgia', 'Palatino', 'serif'],
+            sans: ['"Open Sans"', 'sans-serif'],
+          },
+        }
+      }
+    }
+  </script>
+  <style>
+    /* ─── Reset & base ─────────────────────────────────── */
+    body { font-family: 'Open Sans', sans-serif; color: #242323; overflow-x: hidden; }
+
+    /* ─── Nav ──────────────────────────────────────────── */
+    .nav-link {
+      font-size: 11px;
+      letter-spacing: .12em;
+      font-weight: 400;
+      color: #242323;
+      text-transform: uppercase;
+      transition: opacity .25s;
+    }
+    .nav-link:hover { opacity: .55; }
+
+    /* Nav slide-down on page load */
+    nav {
+      animation: navSlideDown .55s cubic-bezier(.22,1,.36,1) both;
+    }
+    @keyframes navSlideDown {
+      from { transform: translateY(-100%); opacity: 0; }
+      to   { transform: translateY(0);     opacity: 1; }
+    }
+
+    /* ─── Hero ─────────────────────────────────────────── */
+    .hero-wrap {
+      position: relative;
+      width: 100%;
+      height: 430px;
+      overflow: hidden;
+    }
+    .hero-img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      animation: kenBurns 14s ease-in-out infinite alternate;
+    }
+    @keyframes kenBurns {
+      from { transform: scale(1)    translate(0, 0); }
+      to   { transform: scale(1.07) translate(-1%, 1%); }
+    }
+    .hero-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to bottom, rgba(0,0,0,.08) 0%, rgba(0,0,0,.25) 100%);
+    }
+
+    /* ─── Scroll-reveal ─────────────────────────────────── */
+    [data-reveal] {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity .75s cubic-bezier(.22,1,.36,1),
+                  transform .75s cubic-bezier(.22,1,.36,1);
+    }
+    [data-reveal].revealed {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    [data-reveal][data-d="1"] { transition-delay: .1s; }
+    [data-reveal][data-d="2"] { transition-delay: .22s; }
+    [data-reveal][data-d="3"] { transition-delay: .34s; }
+    [data-reveal][data-d="4"] { transition-delay: .46s; }
+    [data-reveal][data-d="5"] { transition-delay: .58s; }
+
+    /* ─── Gallery ──────────────────────────────────────── */
+    .gallery-wrap {
+      position: relative;
+      height: 300px;
+      overflow: hidden;
+    }
+    .gallery-track {
+      position: absolute;
+      inset: 0;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      transition: opacity .55s ease, transform .55s cubic-bezier(.4,0,.2,1);
+    }
+    .gallery-track img {
+      width: 100%;
+      height: 300px;
+      object-fit: cover;
+      display: block;
+      transition: transform .55s ease;
+    }
+    .gallery-track img:hover { transform: scale(1.04); }
+
+    /* slide directions */
+    .gallery-track.exit-left  { animation: exitLeft  .52s cubic-bezier(.4,0,.2,1) forwards; }
+    .gallery-track.exit-right { animation: exitRight .52s cubic-bezier(.4,0,.2,1) forwards; }
+    .gallery-track.enter-from-right { animation: enterFromRight .52s cubic-bezier(.4,0,.2,1) forwards; }
+    .gallery-track.enter-from-left  { animation: enterFromLeft  .52s cubic-bezier(.4,0,.2,1) forwards; }
+
+    @keyframes exitLeft       { to { transform: translateX(-100%); opacity: 0; } }
+    @keyframes exitRight      { to { transform: translateX(100%);  opacity: 0; } }
+    @keyframes enterFromRight { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+    @keyframes enterFromLeft  { from { transform: translateX(-100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+
+    /* dot indicators */
+    .dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: rgba(255,255,255,.5);
+      transition: background .3s, transform .3s;
+      cursor: pointer;
+      border: none;
+    }
+    .dot.active { background: #fff; transform: scale(1.4); }
+
+    /* arrow buttons */
+    .arrow-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 38px; height: 38px;
+      background: rgba(255,255,255,.85);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer;
+      font-size: 18px; color: #242323;
+      z-index: 10; border: none;
+      box-shadow: 0 2px 8px rgba(0,0,0,.18);
+      transition: background .2s, transform .2s, box-shadow .2s;
+      backdrop-filter: blur(4px);
+    }
+    .arrow-btn:hover {
+      background: #fff;
+      transform: translateY(-50%) scale(1.1);
+      box-shadow: 0 4px 16px rgba(0,0,0,.22);
+    }
+    .arrow-btn:active { transform: translateY(-50%) scale(.96); }
+
+    /* ─── Testimonials ──────────────────────────────────── */
+    .quote-mark {
+      font-family: Georgia, serif;
+      font-size: 80px;
+      line-height: .9;
+      color: #75A9BF;
+      margin-bottom: 12px;
+      display: block;
+    }
+    .testimonial-card {
+      padding: 36px 28px 48px;
+      transition: background .25s;
+    }
+    .testimonial-card:hover { background: #fafafa; }
+
+    /* ─── Social icons ──────────────────────────────────── */
+    .social-icon {
+      width: 38px; height: 38px;
+      border-radius: 9px;
+      display: inline-flex; align-items: center; justify-content: center;
+      transition: transform .25s, box-shadow .25s;
+    }
+    .social-icon:hover {
+      transform: translateY(-3px) scale(1.08);
+      box-shadow: 0 6px 18px rgba(0,0,0,.18);
+    }
+
+    /* ─── Contact form ──────────────────────────────────── */
+    .form-input {
+      width: 100%;
+      border: none;
+      border-bottom: 1px solid #D0D0D0;
+      background: transparent;
+      padding: 8px 0;
+      font-size: 13px; color: #242323;
+      outline: none;
+      font-family: 'Open Sans', sans-serif;
+      transition: border-bottom-color .2s;
+    }
+    .form-input::placeholder { color: #A0A09F; font-size: 13px; }
+    .form-input:focus { border-bottom-color: #75A9BF; }
+  </style>
+</head>
+<body class="bg-white">
+
+  <!-- ═══════════════════ NAV ═══════════════════ -->
+  <nav class="sticky top-0 z-50 bg-white border-b border-gray-100 shadow-sm">
+    <div class="max-w-[980px] mx-auto px-4 h-12 flex items-center gap-6">
+      <a href="index.html" class="nav-link current">Home</a>
+      <a href="camere.html" class="nav-link hidden sm:inline">Camere</a>
+      <a href="restaurant.html" class="nav-link hidden md:inline">Restaurant</a>
+      <a href="facilitati.html" class="nav-link hidden md:inline">Facilități</a>
+      <a href="galerie.html" class="nav-link hidden lg:inline">Galerie</a>
+      <a href="mai-mult.html" class="nav-link hidden lg:inline">Mai mult</a>
+      <div class="flex-1"></div>
+      <a href="#contact"
+         class="nav-link border border-text-main px-4 py-1.5 text-[10px] tracking-widest
+                hover:bg-text-main hover:text-white transition-colors duration-200">
+        REZERVARE
+      </a>
+      <div class="flex items-center gap-1 border border-gray-300 px-2 py-1 cursor-pointer select-none">
+        <span style="font-size:10px;letter-spacing:.1em;">RO</span>
+        <svg width="8" height="5" viewBox="0 0 8 5" fill="none">
+          <path d="M1 1l3 3 3-3" stroke="#242323" stroke-width="1.2" stroke-linecap="round"/>
+        </svg>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ═══════════════════ HERO ═══════════════════ -->
+  <section class="w-full">
+    <div class="hero-wrap">
+      <img
+        src="img/481318671_629707576471209_4889056075284692463_n.jpg"
+        alt="Pensiunea Prut – vedere panoramică"
+        class="hero-img"
+      />
+      <div class="hero-overlay"></div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════ TITLE SECTION ═══════════════════ -->
+  <section class="bg-white py-14 text-center px-6">
+    <h1 data-reveal class="font-serif text-[40px] font-bold leading-tight text-text-main mb-3">
+      Pensiunea Prut
+    </h1>
+    <p data-reveal data-d="1" class="italic text-text-muted text-sm mb-3">
+      Destinația ta pentru natură, confort și relaxare.
+    </p>
+    <p data-reveal data-d="2" class="italic text-text-muted text-sm max-w-lg mx-auto leading-relaxed mb-6">
+      Situată pe malul pitoresc al râului Prut, pensiunea noastră vă oferă o evadare perfectă din agitația orașului.
+      Beneficiați de camere confortabile, o bucătărie tradițională moldovenească, terasă cu vedere la râu și aer curat de câmpie.
+    </p>
+    <hr data-reveal data-d="3" class="border-t border-gray-200 max-w-[60px] mx-auto mb-6" />
+    <a data-reveal data-d="4" href="#contact"
+       class="inline-block border border-text-main text-text-main text-xs tracking-widest px-8 py-2.5 uppercase
+              hover:bg-text-main hover:text-white transition-colors duration-200">
+      Rezervă Acum
+    </a>
+  </section>
+
+  <!-- ═══════════════════ GALLERY ═══════════════════ -->
+  <section id="galerie" class="relative select-none">
+    <!-- Track container -->
+    <div class="gallery-wrap" id="galleryWrap">
+      <div class="gallery-track" id="trackActive"></div>
+    </div>
+
+    <!-- Arrows -->
+    <button class="arrow-btn" style="left:16px;" id="btnPrev" aria-label="Anterior">&#8249;</button>
+    <button class="arrow-btn" style="right:16px;" id="btnNext" aria-label="Următor">&#8250;</button>
+
+    <!-- Dot indicators -->
+    <div id="dots"
+         class="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-2 z-10">
+    </div>
+  </section>
+
+  <!-- ═══════════════════ TESTIMONIALS ═══════════════════ -->
+  <section class="bg-white">
+    <div class="grid grid-cols-1 sm:grid-cols-3 items-stretch
+                border border-gray-200
+                divide-y sm:divide-y-0 sm:divide-x divide-gray-200">
+
+      <div data-reveal data-d="1" class="testimonial-card text-center">
+        <span class="quote-mark">&ldquo;</span>
+        <h3 class="font-serif text-base font-normal mb-3 text-text-main">Ana Rusu</h3>
+        <p class="text-text-muted text-sm leading-relaxed">
+          „Totul a fost impecabil! Servicii excelente, camere curate și personal
+          primitor. Peisajul de pe malul Prutului este de neuitat."
+        </p>
+      </div>
+
+      <div data-reveal data-d="2" class="testimonial-card text-center">
+        <span class="quote-mark">&ldquo;</span>
+        <h3 class="font-serif text-base font-normal mb-3 text-text-main">Ion Cebotari</h3>
+        <p class="text-text-muted text-sm leading-relaxed">
+          „O locație minunată pentru relaxare. Mâncarea tradițională moldovenească
+          a fost delicioasă, iar atmosfera liniștită îți reîncarcă bateriile."
+        </p>
+      </div>
+
+      <div data-reveal data-d="3" class="testimonial-card text-center">
+        <span class="quote-mark">&ldquo;</span>
+        <h3 class="font-serif text-base font-normal mb-3 text-text-main">Maria Botnaru</h3>
+        <p class="text-text-muted text-sm leading-relaxed">
+          „Am revenit pentru a treia oară și nu regretăm! Pensiunea Prut este
+          perfectă pentru familii – copiii au adorat natura și râul."
+        </p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ═══════════════════ SOCIAL ICONS ═══════════════════ -->
+  <section class="bg-white py-8 flex justify-center gap-3">
+    <a data-reveal data-d="1" href="https://www.instagram.com/pensiunea_prut_moldova_/agram">
+      <div class="social-icon" style="background:linear-gradient(45deg,#f09433,#e6683c,#dc2743,#cc2366,#bc1888);">
+        <svg width="18" height="18" fill="white" viewBox="0 0 24 24">
+          <path d="M12 2.163c3.204 0 3.584.012 4.85.07 1.366.062 2.633.334 3.608 1.308.975.975 1.246 2.242 1.308 3.608.058 1.266.07 1.646.07 4.85s-.012 3.584-.07 4.85c-.062 1.366-.333 2.633-1.308 3.608-.975.975-2.242 1.246-3.608 1.308-1.266.058-1.646.07-4.85.07s-3.584-.012-4.85-.07c-1.366-.062-2.633-.333-3.608-1.308-.975-.975-1.246-2.242-1.308-3.608C2.175 15.584 2.163 15.204 2.163 12s.012-3.584.07-4.85c.062-1.366.333-2.633 1.308-3.608.975-.975 2.242-1.246 3.608-1.308C8.416 2.175 8.796 2.163 12 2.163zm0-2.163C8.741 0 8.333.014 7.053.072 5.197.157 3.355.673 2.014 2.014.673 3.355.157 5.197.072 7.053.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.085 1.856.601 3.698 1.942 5.038 1.341 1.341 3.183 1.857 5.038 1.942C8.332 23.986 8.741 24 12 24s3.668-.014 4.948-.072c1.855-.085 3.697-.601 5.038-1.942 1.341-1.34 1.857-3.182 1.942-5.038.058-1.28.072-1.689.072-4.948s-.014-3.667-.072-4.947c-.085-1.856-.601-3.698-1.942-5.039C20.698.673 18.856.157 17 .072 15.668.014 15.259 0 12 0zm0 5.838A6.162 6.162 0 0 0 5.838 12 6.162 6.162 0 0 0 12 18.162 6.162 6.162 0 0 0 18.162 12 6.162 6.162 0 0 0 12 5.838zm0 10.162A4 4 0 1 1 12 8a4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/>
+        </svg>
+      </div>
+    </a>
+    <a data-reveal data-d="2" href="https://www.facebook.com/pensiuneaprut" target="_blank" rel="noopener" aria-label="Facebook">
+      <div class="social-icon" style="background:#1877F2;">
+        <svg width="18" height="18" fill="white" viewBox="0 0 24 24">
+          <path d="M24 12.073C24 5.405 18.627 0 12 0S0 5.405 0 12.073C0 18.1 4.388 23.094 10.125 24v-8.437H7.078v-3.49h3.047V9.41c0-3.025 1.792-4.697 4.533-4.697 1.312 0 2.686.236 2.686.236v2.97h-1.513c-1.491 0-1.956.931-1.956 1.887v2.267h3.328l-.532 3.49h-2.796V24C19.612 23.094 24 18.1 24 12.073z"/>
+        </svg>
+      </div>
+    </a>
+    <a data-reveal data-d="3" href="https://www.tiktok.com/" target="_blank" rel="noopener" aria-label="TikTok">
+      <div class="social-icon" style="background:#010101;">
+        <svg width="16" height="16" fill="white" viewBox="0 0 24 24">
+          <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.87a8.18 8.18 0 0 0 4.78 1.52V7a4.85 4.85 0 0 1-1.01-.31z"/>
+        </svg>
+      </div>
+    </a>
+  </section>
+
+  <!-- ═══════════════════ CONTACT ═══════════════════ -->
+  <section id="contact" class="bg-bg-secondary py-14 px-6">
+    <div class="max-w-[520px] mx-auto">
+      <h2 data-reveal
+          class="text-center uppercase tracking-[.25em] text-sm font-normal text-text-main mb-8">
+        Contactează-ne
+      </h2>
+      <form>
+        <div data-reveal data-d="1" class="grid grid-cols-2 gap-x-6 mb-5">
+          <input type="text"  placeholder="Nume *"  class="form-input" required />
+          <input type="email" placeholder="Email *" class="form-input" required />
+        </div>
+        <div data-reveal data-d="2" class="mb-5">
+          <input type="text" placeholder="Subiect" class="form-input" />
+        </div>
+        <div data-reveal data-d="3" class="mb-5">
+          <input type="tel" placeholder="Telefon" class="form-input" />
+        </div>
+        <div data-reveal data-d="4" class="mb-7">
+          <textarea placeholder="Mesaj" rows="5"
+                    class="form-input resize-none" style="padding-top:8px;"></textarea>
+        </div>
+        <div data-reveal data-d="5">
+          <button type="submit"
+                  class="w-full bg-text-main text-white text-xs tracking-widest uppercase py-3
+                         hover:bg-accent-dark transition-colors duration-200">
+            Trimite
+          </button>
+        </div>
+      </form>
+    </div>
+  </section>
+
+  <!-- ═══════════════════ FOOTER ═══════════════════ -->
+  <footer class="bg-[#242323] text-white py-5 text-center">
+    <p class="text-xs tracking-wide text-gray-300 mb-1">
+      office@pensiuneaprut.md &nbsp;|&nbsp; s. Cahul, Republica Moldova &nbsp;|&nbsp; + (373) 673 67 363
+    </p>
+    <p class="text-xs text-gray-500">© 2026 Pensiunea Prut</p>
+  </footer>
+
+  <!-- ═══════════════════ SCRIPTS ═══════════════════ -->
+  <script>
+    /* ── Gallery ──────────────────────────────────── */
+    const images = [
+      'img/503434474_17921668083104546_8464077430122264453_n.jpg',
+      'img/521073455_17921667885104546_667003777314407382_n.jpg',
+      'img/545201940_777141891727776_4044273546942787850_n.jpg',
+      'img/504422139_17917258905104546_2424890510171038953_n.jpg',
+      'img/491446333_17911743645104546_8791288673186591999_n.jpg',
+      'img/491511618_17911609458104546_4366143796470348589_n.jpg',
+      'img/485073569_644985948276705_8151943620002449339_n.jpg',
+      'img/482798487_17905977516104546_8880784927175423492_n.jpg',
+      'img/482374668_17905977489104546_1331453761911921011_n.jpg',
+      'img/481367602_17904970611104546_1208290850341794786_n.jpg',
+      'img/475661782_17902079202104546_7022717297317803092_n.jpg',
+      'img/478627334_17903516622104546_5481786571841690003_n.jpg',
+      'img/481465330_17904970602104546_8507625455770855017_n.jpg',
+      'img/480963626_644991631609470_4768305687844255848_n.jpg',
+      'img/508645935_17918113818104546_2953571060253264030_n.jpg',
+      'img/511565671_17919264129104546_1491740303289331990_n.jpg',
+    ];
+
+    const VISIBLE = 3;                    /* images shown at once */
+    const PAGE_COUNT = Math.ceil(images.length / VISIBLE);
+    let currentPage = 0;
+    let isAnimating = false;
+    let autoTimer = null;
+
+    const wrap       = document.getElementById('galleryWrap');
+    const dotsEl     = document.getElementById('dots');
+    const btnPrev    = document.getElementById('btnPrev');
+    const btnNext    = document.getElementById('btnNext');
+    let   activeTrack = document.getElementById('trackActive');
+
+    /* Build dot indicators */
+    const dotBtns = [];
+    for (let i = 0; i < PAGE_COUNT; i++) {
+      const d = document.createElement('button');
+      d.className = 'dot' + (i === 0 ? ' active' : '');
+      d.setAttribute('aria-label', 'Pagina ' + (i + 1));
+      d.addEventListener('click', () => goToPage(i, i > currentPage ? 'next' : 'prev'));
+      dotsEl.appendChild(d);
+      dotBtns.push(d);
+    }
+
+    function buildTrack(page) {
+      const track = document.createElement('div');
+      track.className = 'gallery-track';
+      const start = page * VISIBLE;
+      for (let i = 0; i < VISIBLE; i++) {
+        const idx = (start + i) % images.length;
+        const img = document.createElement('img');
+        img.src = images[idx];
+        img.alt = 'Pensiunea Prut – fotografie ' + (idx + 1);
+        img.loading = 'lazy';
+        track.appendChild(img);
+      }
+      return track;
+    }
+
+    function updateDots(page) {
+      dotBtns.forEach((d, i) => d.classList.toggle('active', i === page));
+    }
+
+    function goToPage(nextPage, direction) {
+      if (isAnimating || nextPage === currentPage) return;
+      isAnimating = true;
+
+      const exitClass  = direction === 'next' ? 'exit-left'         : 'exit-right';
+      const enterClass = direction === 'next' ? 'enter-from-right'  : 'enter-from-left';
+
+      const nextTrack = buildTrack(nextPage);
+      nextTrack.style.zIndex = '1';
+      activeTrack.style.zIndex = '2';
+      wrap.appendChild(nextTrack);
+
+      /* start animations next frame */
+      requestAnimationFrame(() => {
+        activeTrack.classList.add(exitClass);
+        nextTrack.classList.add(enterClass);
+      });
+
+      const DURATION = 540;
+      setTimeout(() => {
+        wrap.removeChild(activeTrack);
+        nextTrack.style.zIndex = '';
+        nextTrack.classList.remove(enterClass);
+        activeTrack = nextTrack;
+        currentPage = nextPage;
+        updateDots(currentPage);
+        isAnimating = false;
+      }, DURATION);
+    }
+
+    function next() {
+      goToPage((currentPage + 1) % PAGE_COUNT, 'next');
+    }
+    function prev() {
+      goToPage((currentPage - 1 + PAGE_COUNT) % PAGE_COUNT, 'prev');
+    }
+
+    btnNext.addEventListener('click', () => { resetAuto(); next(); });
+    btnPrev.addEventListener('click', () => { resetAuto(); prev(); });
+
+    /* Keyboard support */
+    document.addEventListener('keydown', e => {
+      if (e.key === 'ArrowRight') { resetAuto(); next(); }
+      if (e.key === 'ArrowLeft')  { resetAuto(); prev(); }
+    });
+
+    /* Autoplay */
+    function startAuto() {
+      autoTimer = setInterval(next, 5000);
+    }
+    function resetAuto() {
+      clearInterval(autoTimer);
+      startAuto();
+    }
+
+    /* Pause on hover */
+    wrap.addEventListener('mouseenter', () => clearInterval(autoTimer));
+    wrap.addEventListener('mouseleave', startAuto);
+
+    /* Swipe support */
+    let touchStartX = 0;
+    wrap.addEventListener('touchstart', e => { touchStartX = e.touches[0].clientX; }, { passive: true });
+    wrap.addEventListener('touchend', e => {
+      const dx = e.changedTouches[0].clientX - touchStartX;
+      if (Math.abs(dx) > 40) { resetAuto(); dx < 0 ? next() : prev(); }
+    });
+
+    /* Initialise */
+    activeTrack.replaceWith(buildTrack(0));
+    activeTrack = wrap.querySelector('.gallery-track');
+    startAuto();
+
+    /* ── Scroll-reveal via IntersectionObserver ──── */
+    const revealObs = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('revealed');
+          revealObs.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12 });
+
+    document.querySelectorAll('[data-reveal]').forEach(el => revealObs.observe(el));
+  </script>
+
+</body>
+</html>

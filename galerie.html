@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Galerie – Pensiunea Prut</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,700;1,400&family=Open+Sans:ital,wght@0,300;0,400;0,600;1,300;1,400&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            accent: '#75A9BF', 'accent-dark': '#4E7180',
+            'text-main': '#242323', 'text-muted': '#737373', 'bg-secondary': '#F5F5F5',
+          },
+          fontFamily: {
+            serif: ['"EB Garamond"', 'Georgia', 'Palatino', 'serif'],
+            sans: ['"Open Sans"', 'sans-serif'],
+          },
+        }
+      }
+    }
+  </script>
+  <style>
+    /* ── Grid ── */
+    .photo-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 4px;
+    }
+    @media (max-width: 900px) { .photo-grid { grid-template-columns: repeat(3, 1fr); } }
+    @media (max-width: 600px) { .photo-grid { grid-template-columns: repeat(2, 1fr); } }
+
+    .photo-item {
+      position: relative;
+      overflow: hidden;
+      aspect-ratio: 1 / 1;
+      cursor: pointer;
+    }
+    .photo-item img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform .55s cubic-bezier(.4,0,.2,1);
+    }
+    .photo-item:hover img { transform: scale(1.08); }
+    .photo-item-overlay {
+      position: absolute; inset: 0;
+      background: rgba(0,0,0,0);
+      display: flex; align-items: center; justify-content: center;
+      transition: background .3s;
+    }
+    .photo-item:hover .photo-item-overlay {
+      background: rgba(0,0,0,.25);
+    }
+    .photo-item-icon {
+      opacity: 0; transform: scale(.7);
+      transition: opacity .3s, transform .3s;
+      color: white; font-size: 24px;
+    }
+    .photo-item:hover .photo-item-icon {
+      opacity: 1; transform: scale(1);
+    }
+
+    /* ── Lightbox ── */
+    .lightbox {
+      display: none;
+      position: fixed; inset: 0; z-index: 1000;
+      background: rgba(0,0,0,.92);
+      align-items: center; justify-content: center;
+      animation: lbFadeIn .25s ease both;
+    }
+    @keyframes lbFadeIn { from { opacity:0; } to { opacity:1; } }
+    .lightbox:target { display: flex; }
+
+    .lightbox img {
+      max-width: 90vw;
+      max-height: 88vh;
+      object-fit: contain;
+      border-radius: 2px;
+      box-shadow: 0 20px 60px rgba(0,0,0,.5);
+      animation: lbImgIn .3s cubic-bezier(.22,1,.36,1) both;
+    }
+    @keyframes lbImgIn {
+      from { transform: scale(.93); opacity: 0; }
+      to   { transform: scale(1);   opacity: 1; }
+    }
+
+    .lb-close {
+      position: absolute; top: 20px; right: 24px;
+      font-size: 32px; color: rgba(255,255,255,.7);
+      line-height: 1; cursor: pointer;
+      transition: color .2s, transform .2s;
+      text-decoration: none;
+    }
+    .lb-close:hover { color: #fff; transform: scale(1.15); }
+
+    .lb-nav {
+      position: absolute; top: 50%; transform: translateY(-50%);
+      font-size: 28px; color: rgba(255,255,255,.7);
+      cursor: pointer; text-decoration: none;
+      padding: 12px; transition: color .2s;
+    }
+    .lb-nav:hover { color: #fff; }
+    .lb-prev { left: 16px; }
+    .lb-next { right: 16px; }
+  </style>
+</head>
+<body class="bg-white">
+
+  <!-- NAV -->
+  <nav class="sticky top-0 z-50 bg-white border-b border-gray-100 shadow-sm">
+    <div class="max-w-[980px] mx-auto px-4 h-12 flex items-center gap-6">
+      <a href="index.html" class="nav-link">Home</a>
+      <a href="camere.html" class="nav-link hidden sm:inline">Camere</a>
+      <a href="restaurant.html" class="nav-link hidden md:inline">Restaurant</a>
+      <a href="facilitati.html" class="nav-link hidden md:inline">Facilități</a>
+      <a href="galerie.html" class="nav-link current hidden lg:inline">Galerie</a>
+      <a href="mai-mult.html" class="nav-link hidden lg:inline">Mai mult</a>
+      <div class="flex-1"></div>
+      <a href="index.html#contact" class="nav-link border border-[#242323] px-4 py-1.5 text-[10px] tracking-widest hover:bg-[#242323] hover:text-white transition-colors duration-200">REZERVARE</a>
+      <div class="flex items-center gap-1 border border-gray-300 px-2 py-1 cursor-pointer select-none">
+        <span style="font-size:10px;letter-spacing:.1em;">RO</span>
+        <svg width="8" height="5" viewBox="0 0 8 5" fill="none"><path d="M1 1l3 3 3-3" stroke="#242323" stroke-width="1.2" stroke-linecap="round"/></svg>
+      </div>
+    </div>
+  </nav>
+
+  <!-- BANNER -->
+  <div class="page-banner">
+    <img src="img/521073455_17921667885104546_667003777314407382_n.jpg" alt="Galerie Pensiunea Prut" />
+    <div class="page-banner-overlay">
+      <h1 class="page-banner-title">Galerie foto</h1>
+      <p class="page-banner-sub">Descoperă frumusețea pensiunii noastre</p>
+    </div>
+  </div>
+
+  <!-- PHOTO GRID -->
+  <section class="p-1 pt-1">
+    <div class="photo-grid">
+
+      <a href="#lb1" class="photo-item" data-reveal>
+        <img src="img/481318671_629707576471209_4889056075284692463_n.jpg" alt="Pensiunea Prut 1" loading="lazy" />
+        <div class="photo-item-overlay"><span class="photo-item-icon">⊕</span></div>
+      </a>
+      <a href="#lb2" class="photo-item" data-reveal data-d="1">
+        <img src="img/503434474_17921668083104546_8464077430122264453_n.jpg" alt="Pensiunea Prut 2" loading="lazy" />
+        <div class="photo-item-overlay"><span class="photo-item-icon">⊕</span></div>
+      </a>
+      <a href="#lb3" class="photo-item" data-reveal data-d="2">
+        <img src="img/521073455_17921667885104546_667003777314407382_n.jpg" alt="Pensiunea Prut 3" loading="lazy" />
+        <div class="photo-item-overlay"><span class="photo-item-icon">⊕</span></div>
+      </a>
+      <a href="#lb4" class="photo-item" data-reveal data-d="3">
+        <img src="img/545201940_777141891727776_4044273546942787850_n.jpg" alt="Pensiunea Prut 4" loading="lazy" />
+        <div class="photo-item-overlay"><span class="photo-item-icon">⊕</span></div>
+      </a>
+      <a href="#lb5" class="photo-item" data-reveal data-d="1">
+        <img src="img/504422139_17917258905104546_2424890510171038953_n.jpg" alt="Pensiunea Prut 5" loading="lazy" />
+        <div class="photo-item-overlay"><span class="photo-item-icon">⊕</span></div>
+      </a>
+      <a href="#lb6" class="photo-item" data-reveal data-d="2">
+        <img src="img/491446333_17911743645104546_8791288673186591999_n.jpg" alt="Pensiunea Prut 6" loading="lazy" />
+        <div class="photo-item-overlay"><span class="photo-item-icon">⊕</span></div>
+      </a>
+      <a href="#lb7" class="photo-item" data-reveal data-d="3">
+        <img src="img/491511618_17911609458104546_4366143796470348589_n.jpg" alt="Pensiunea Prut 7" loading="lazy" />
+        <div class="photo-item-overlay"><span class="photo-item-icon">⊕</span></div>
+      </a>
+      <a href="#lb8" class="photo-item" data-reveal data-d="4">
+        <img src="img/485073569_644985948276705_8151943620002449339_n.jpg" alt="Pensiunea Prut 8" loading="lazy" />
+        <div class="photo-item-overlay"><span class="photo-item-icon">⊕</span></div>
+      </a>
+      <a href="#lb9" class="photo-item" data-reveal>
+        <img src="img/482798487_17905977516104546_8880784927175423492_n.jpg" alt="Pensiunea Prut 9" loading="lazy" />
+        <div class="photo-item-overlay"><span class="photo-item-icon">⊕</span></div>
+      </a>
+      <a href="#lb10" class="photo-item" data-reveal data-d="1">
+        <img src="img/482374668_17905977489104546_1331453761911921011_n.jpg" alt="Pensiunea Prut 10" loading="lazy" />
+        <div class="photo-item-overlay"><span class="photo-item-icon">⊕</span></div>
+      </a>
+      <a href="#lb11" class="photo-item" data-reveal data-d="2">
+        <img src="img/481367602_17904970611104546_1208290850341794786_n.jpg" alt="Pensiunea Prut 11" loading="lazy" />
+        <div class="photo-item-overlay"><span class="photo-item-icon">⊕</span></div>
+      </a>
+      <a href="#lb12" class="photo-item" data-reveal data-d="3">
+        <img src="img/475661782_17902079202104546_7022717297317803092_n.jpg" alt="Pensiunea Prut 12" loading="lazy" />
+        <div class="photo-item-overlay"><span class="photo-item-icon">⊕</span></div>
+      </a>
+      <a href="#lb13" class="photo-item" data-reveal data-d="1">
+        <img src="img/478627334_17903516622104546_5481786571841690003_n.jpg" alt="Pensiunea Prut 13" loading="lazy" />
+        <div class="photo-item-overlay"><span class="photo-item-icon">⊕</span></div>
+      </a>
+      <a href="#lb14" class="photo-item" data-reveal data-d="2">
+        <img src="img/481465330_17904970602104546_8507625455770855017_n.jpg" alt="Pensiunea Prut 14" loading="lazy" />
+        <div class="photo-item-overlay"><span class="photo-item-icon">⊕</span></div>
+      </a>
+      <a href="#lb15" class="photo-item" data-reveal data-d="3">
+        <img src="img/480963626_644991631609470_4768305687844255848_n.jpg" alt="Pensiunea Prut 15" loading="lazy" />
+        <div class="photo-item-overlay"><span class="photo-item-icon">⊕</span></div>
+      </a>
+      <a href="#lb16" class="photo-item" data-reveal data-d="4">
+        <img src="img/508645935_17918113818104546_2953571060253264030_n.jpg" alt="Pensiunea Prut 16" loading="lazy" />
+        <div class="photo-item-overlay"><span class="photo-item-icon">⊕</span></div>
+      </a>
+      <a href="#lb17" class="photo-item" data-reveal>
+        <img src="img/645792910_17948041635104546_4621326981739802134_n.jpg" alt="Masă festivă – restaurant" loading="lazy" />
+        <div class="photo-item-overlay"><span class="photo-item-icon">⊕</span></div>
+      </a>
+      <a href="#lb18" class="photo-item" data-reveal data-d="1">
+        <img src="img/645919952_17948041626104546_8678581559680132285_n.jpg" alt="Pește la grătar" loading="lazy" />
+        <div class="photo-item-overlay"><span class="photo-item-icon">⊕</span></div>
+      </a>
+      <a href="#lb19" class="photo-item" data-reveal data-d="2">
+        <img src="img/645732087_17948041599104546_1222141695834939599_n.jpg" alt="Platou de pește afumat" loading="lazy" />
+        <div class="photo-item-overlay"><span class="photo-item-icon">⊕</span></div>
+      </a>
+      <a href="#lb20" class="photo-item" data-reveal data-d="3">
+        <img src="img/645819895_17948041662104546_804258183541001899_n.jpg" alt="Platou rece asortat" loading="lazy" />
+        <div class="photo-item-overlay"><span class="photo-item-icon">⊕</span></div>
+      </a>
+      <a href="#lb21" class="photo-item" data-reveal data-d="1">
+        <img src="img/645707312_17948041617104546_9099554513703615144_n.jpg" alt="Răcitură moldovenească" loading="lazy" />
+        <div class="photo-item-overlay"><span class="photo-item-icon">⊕</span></div>
+      </a>
+      <a href="#lb22" class="photo-item" data-reveal data-d="2">
+        <img src="img/645843127_17948041689104546_6729414793279323577_n.jpg" alt="Platou de brânzeturi și mezeluri" loading="lazy" />
+        <div class="photo-item-overlay"><span class="photo-item-icon">⊕</span></div>
+      </a>
+      <a href="#lb23" class="photo-item" data-reveal data-d="3">
+        <img src="img/645871507_17948041644104546_8416304141404659415_n.jpg" alt="Platou de fructe" loading="lazy" />
+        <div class="photo-item-overlay"><span class="photo-item-icon">⊕</span></div>
+      </a>
+
+    </div>
+  </section>
+
+  <!-- LIGHTBOXES (CSS :target trick) -->
+  <div id="lb1" class="lightbox">
+    <a href="#" class="lb-close">×</a>
+    <a href="#lb23" class="lb-nav lb-prev">‹</a>
+    <img src="img/481318671_629707576471209_4889056075284692463_n.jpg" alt="" />
+    <a href="#lb2" class="lb-nav lb-next">›</a>
+  </div>
+  <div id="lb2" class="lightbox">
+    <a href="#" class="lb-close">×</a>
+    <a href="#lb1" class="lb-nav lb-prev">‹</a>
+    <img src="img/503434474_17921668083104546_8464077430122264453_n.jpg" alt="" />
+    <a href="#lb3" class="lb-nav lb-next">›</a>
+  </div>
+  <div id="lb3" class="lightbox">
+    <a href="#" class="lb-close">×</a>
+    <a href="#lb2" class="lb-nav lb-prev">‹</a>
+    <img src="img/521073455_17921667885104546_667003777314407382_n.jpg" alt="" />
+    <a href="#lb4" class="lb-nav lb-next">›</a>
+  </div>
+  <div id="lb4" class="lightbox">
+    <a href="#" class="lb-close">×</a>
+    <a href="#lb3" class="lb-nav lb-prev">‹</a>
+    <img src="img/545201940_777141891727776_4044273546942787850_n.jpg" alt="" />
+    <a href="#lb5" class="lb-nav lb-next">›</a>
+  </div>
+  <div id="lb5" class="lightbox">
+    <a href="#" class="lb-close">×</a>
+    <a href="#lb4" class="lb-nav lb-prev">‹</a>
+    <img src="img/504422139_17917258905104546_2424890510171038953_n.jpg" alt="" />
+    <a href="#lb6" class="lb-nav lb-next">›</a>
+  </div>
+  <div id="lb6" class="lightbox">
+    <a href="#" class="lb-close">×</a>
+    <a href="#lb5" class="lb-nav lb-prev">‹</a>
+    <img src="img/491446333_17911743645104546_8791288673186591999_n.jpg" alt="" />
+    <a href="#lb7" class="lb-nav lb-next">›</a>
+  </div>
+  <div id="lb7" class="lightbox">
+    <a href="#" class="lb-close">×</a>
+    <a href="#lb6" class="lb-nav lb-prev">‹</a>
+    <img src="img/491511618_17911609458104546_4366143796470348589_n.jpg" alt="" />
+    <a href="#lb8" class="lb-nav lb-next">›</a>
+  </div>
+  <div id="lb8" class="lightbox">
+    <a href="#" class="lb-close">×</a>
+    <a href="#lb7" class="lb-nav lb-prev">‹</a>
+    <img src="img/485073569_644985948276705_8151943620002449339_n.jpg" alt="" />
+    <a href="#lb9" class="lb-nav lb-next">›</a>
+  </div>
+  <div id="lb9" class="lightbox">
+    <a href="#" class="lb-close">×</a>
+    <a href="#lb8" class="lb-nav lb-prev">‹</a>
+    <img src="img/482798487_17905977516104546_8880784927175423492_n.jpg" alt="" />
+    <a href="#lb10" class="lb-nav lb-next">›</a>
+  </div>
+  <div id="lb10" class="lightbox">
+    <a href="#" class="lb-close">×</a>
+    <a href="#lb9" class="lb-nav lb-prev">‹</a>
+    <img src="img/482374668_17905977489104546_1331453761911921011_n.jpg" alt="" />
+    <a href="#lb11" class="lb-nav lb-next">›</a>
+  </div>
+  <div id="lb11" class="lightbox">
+    <a href="#" class="lb-close">×</a>
+    <a href="#lb10" class="lb-nav lb-prev">‹</a>
+    <img src="img/481367602_17904970611104546_1208290850341794786_n.jpg" alt="" />
+    <a href="#lb12" class="lb-nav lb-next">›</a>
+  </div>
+  <div id="lb12" class="lightbox">
+    <a href="#" class="lb-close">×</a>
+    <a href="#lb11" class="lb-nav lb-prev">‹</a>
+    <img src="img/475661782_17902079202104546_7022717297317803092_n.jpg" alt="" />
+    <a href="#lb13" class="lb-nav lb-next">›</a>
+  </div>
+  <div id="lb13" class="lightbox">
+    <a href="#" class="lb-close">×</a>
+    <a href="#lb12" class="lb-nav lb-prev">‹</a>
+    <img src="img/478627334_17903516622104546_5481786571841690003_n.jpg" alt="" />
+    <a href="#lb14" class="lb-nav lb-next">›</a>
+  </div>
+  <div id="lb14" class="lightbox">
+    <a href="#" class="lb-close">×</a>
+    <a href="#lb13" class="lb-nav lb-prev">‹</a>
+    <img src="img/481465330_17904970602104546_8507625455770855017_n.jpg" alt="" />
+    <a href="#lb15" class="lb-nav lb-next">›</a>
+  </div>
+  <div id="lb15" class="lightbox">
+    <a href="#" class="lb-close">×</a>
+    <a href="#lb14" class="lb-nav lb-prev">‹</a>
+    <img src="img/480963626_644991631609470_4768305687844255848_n.jpg" alt="" />
+    <a href="#lb16" class="lb-nav lb-next">›</a>
+  </div>
+  <div id="lb16" class="lightbox">
+    <a href="#" class="lb-close">×</a>
+    <a href="#lb15" class="lb-nav lb-prev">‹</a>
+    <img src="img/508645935_17918113818104546_2953571060253264030_n.jpg" alt="" />
+    <a href="#lb17" class="lb-nav lb-next">›</a>
+  </div>
+  <div id="lb17" class="lightbox">
+    <a href="#" class="lb-close">×</a>
+    <a href="#lb16" class="lb-nav lb-prev">‹</a>
+    <img src="img/645792910_17948041635104546_4621326981739802134_n.jpg" alt="Masă festivă – restaurant" />
+    <a href="#lb18" class="lb-nav lb-next">›</a>
+  </div>
+  <div id="lb18" class="lightbox">
+    <a href="#" class="lb-close">×</a>
+    <a href="#lb17" class="lb-nav lb-prev">‹</a>
+    <img src="img/645919952_17948041626104546_8678581559680132285_n.jpg" alt="Pește la grătar" />
+    <a href="#lb19" class="lb-nav lb-next">›</a>
+  </div>
+  <div id="lb19" class="lightbox">
+    <a href="#" class="lb-close">×</a>
+    <a href="#lb18" class="lb-nav lb-prev">‹</a>
+    <img src="img/645732087_17948041599104546_1222141695834939599_n.jpg" alt="Platou de pește afumat" />
+    <a href="#lb20" class="lb-nav lb-next">›</a>
+  </div>
+  <div id="lb20" class="lightbox">
+    <a href="#" class="lb-close">×</a>
+    <a href="#lb19" class="lb-nav lb-prev">‹</a>
+    <img src="img/645819895_17948041662104546_804258183541001899_n.jpg" alt="Platou rece asortat" />
+    <a href="#lb21" class="lb-nav lb-next">›</a>
+  </div>
+  <div id="lb21" class="lightbox">
+    <a href="#" class="lb-close">×</a>
+    <a href="#lb20" class="lb-nav lb-prev">‹</a>
+    <img src="img/645707312_17948041617104546_9099554513703615144_n.jpg" alt="Răcitură moldovenească" />
+    <a href="#lb22" class="lb-nav lb-next">›</a>
+  </div>
+  <div id="lb22" class="lightbox">
+    <a href="#" class="lb-close">×</a>
+    <a href="#lb21" class="lb-nav lb-prev">‹</a>
+    <img src="img/645843127_17948041689104546_6729414793279323577_n.jpg" alt="Platou de brânzeturi și mezeluri" />
+    <a href="#lb23" class="lb-nav lb-next">›</a>
+  </div>
+  <div id="lb23" class="lightbox">
+    <a href="#" class="lb-close">×</a>
+    <a href="#lb22" class="lb-nav lb-prev">‹</a>
+    <img src="img/645871507_17948041644104546_8416304141404659415_n.jpg" alt="Platou de fructe" />
+    <a href="#lb1" class="lb-nav lb-next">›</a>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="bg-[#242323] text-white py-5 text-center mt-1">
+    <p class="text-xs tracking-wide text-gray-300 mb-1">
+      office@pensiuneaprut.md &nbsp;|&nbsp; s. Cahul, Republica Moldova &nbsp;|&nbsp; + (373) 000 000 00
+    </p>
+    <p class="text-xs text-gray-500">© 2024 Pensiunea Prut</p>
+  </footer>
+
+  <script>
+    const obs = new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('revealed'); obs.unobserve(e.target); } });
+    }, { threshold: 0.08 });
+    document.querySelectorAll('[data-reveal]').forEach(el => obs.observe(el));
+
+    /* Close lightbox on Escape */
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') location.hash = ''; });
+  </script>
+</body>
+</html>

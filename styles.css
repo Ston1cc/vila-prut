@@ -1,0 +1,174 @@
+/* ─── Base ───────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; }
+body {
+  font-family: 'Open Sans', sans-serif;
+  color: #242323;
+  overflow-x: hidden;
+  margin: 0; padding: 0;
+  -webkit-font-smoothing: antialiased;
+}
+a { text-decoration: none; color: inherit; }
+
+/* ─── Nav ────────────────────────────────────────────────── */
+.nav-link {
+  font-size: 11px;
+  letter-spacing: .12em;
+  font-weight: 400;
+  color: #242323;
+  text-transform: uppercase;
+  transition: opacity .25s;
+}
+.nav-link:hover { opacity: .55; }
+.nav-link.current { opacity: .45; pointer-events: none; border-bottom: 1px solid #242323; padding-bottom: 1px; }
+
+nav { animation: navSlideDown .55s cubic-bezier(.22,1,.36,1) both; }
+@keyframes navSlideDown {
+  from { transform: translateY(-100%); opacity: 0; }
+  to   { transform: translateY(0);     opacity: 1; }
+}
+
+/* ─── Page banner (inner pages) ──────────────────────────── */
+.page-banner {
+  position: relative;
+  width: 100%;
+  height: 300px;
+  overflow: hidden;
+}
+.page-banner img {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover;
+  animation: kenBurns 16s ease-in-out infinite alternate;
+}
+@keyframes kenBurns {
+  from { transform: scale(1)    translate(0, 0); }
+  to   { transform: scale(1.06) translate(-1%, .8%); }
+}
+.page-banner-overlay {
+  position: absolute; inset: 0;
+  background: linear-gradient(to bottom, rgba(0,0,0,.25) 0%, rgba(0,0,0,.58) 100%);
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+}
+.page-banner-title {
+  font-family: 'EB Garamond', Georgia, serif;
+  font-size: 44px; font-weight: 700;
+  color: #fff; letter-spacing: .02em;
+  text-align: center;
+  animation: heroFadeIn .8s .2s cubic-bezier(.22,1,.36,1) both;
+}
+.page-banner-sub {
+  font-size: 13px;
+  color: rgba(255,255,255,.75);
+  letter-spacing: .08em; margin-top: 10px;
+  text-align: center; font-style: italic;
+  animation: heroFadeIn .8s .4s cubic-bezier(.22,1,.36,1) both;
+}
+@keyframes heroFadeIn {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ─── Scroll reveal ──────────────────────────────────────── */
+[data-reveal] {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity .75s cubic-bezier(.22,1,.36,1),
+              transform .75s cubic-bezier(.22,1,.36,1);
+}
+[data-reveal].revealed { opacity: 1; transform: translateY(0); }
+[data-reveal][data-d="1"] { transition-delay: .10s; }
+[data-reveal][data-d="2"] { transition-delay: .22s; }
+[data-reveal][data-d="3"] { transition-delay: .34s; }
+[data-reveal][data-d="4"] { transition-delay: .46s; }
+[data-reveal][data-d="5"] { transition-delay: .58s; }
+[data-reveal][data-d="6"] { transition-delay: .70s; }
+
+/* ─── Social icons ───────────────────────────────────────── */
+.social-icon {
+  width: 38px; height: 38px;
+  border-radius: 9px;
+  display: inline-flex; align-items: center; justify-content: center;
+  transition: transform .25s, box-shadow .25s;
+}
+.social-icon:hover {
+  transform: translateY(-3px) scale(1.08);
+  box-shadow: 0 6px 18px rgba(0,0,0,.18);
+}
+
+/* ─── Form inputs ────────────────────────────────────────── */
+.form-input {
+  width: 100%;
+  border: none;
+  border-bottom: 1px solid #D0D0D0;
+  background: transparent;
+  padding: 8px 0;
+  font-size: 13px; color: #242323;
+  outline: none;
+  font-family: 'Open Sans', sans-serif;
+  transition: border-bottom-color .2s;
+}
+.form-input::placeholder { color: #A0A09F; font-size: 13px; }
+.form-input:focus { border-bottom-color: #75A9BF; }
+
+/* ─── Testimonials ───────────────────────────────────────── */
+.quote-mark {
+  font-family: Georgia, serif;
+  font-size: 80px; line-height: .9;
+  color: #75A9BF;
+  margin-bottom: 12px;
+  display: block;
+}
+.testimonial-card { padding: 36px 28px 48px; transition: background .25s; }
+.testimonial-card:hover { background: #fafafa; }
+
+/* ─── Gallery slider (index) ─────────────────────────────── */
+.gallery-wrap { position: relative; height: 300px; overflow: hidden; }
+.gallery-track {
+  position: absolute; inset: 0;
+  display: grid; grid-template-columns: repeat(3, 1fr);
+}
+.gallery-track img {
+  width: 100%; height: 300px; object-fit: cover; display: block;
+  transition: transform .55s ease;
+}
+.gallery-track img:hover { transform: scale(1.04); }
+
+.gallery-track.exit-left  { animation: exitLeft  .52s cubic-bezier(.4,0,.2,1) forwards; }
+.gallery-track.exit-right { animation: exitRight .52s cubic-bezier(.4,0,.2,1) forwards; }
+.gallery-track.enter-from-right { animation: enterFromRight .52s cubic-bezier(.4,0,.2,1) forwards; }
+.gallery-track.enter-from-left  { animation: enterFromLeft  .52s cubic-bezier(.4,0,.2,1) forwards; }
+
+@keyframes exitLeft       { to { transform: translateX(-100%); opacity: 0; } }
+@keyframes exitRight      { to { transform: translateX(100%);  opacity: 0; } }
+@keyframes enterFromRight { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+@keyframes enterFromLeft  { from { transform: translateX(-100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+
+.dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: rgba(255,255,255,.5);
+  transition: background .3s, transform .3s;
+  cursor: pointer; border: none;
+}
+.dot.active { background: #fff; transform: scale(1.4); }
+
+.arrow-btn {
+  position: absolute; top: 50%; transform: translateY(-50%);
+  width: 38px; height: 38px;
+  background: rgba(255,255,255,.85); border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; font-size: 18px; color: #242323;
+  z-index: 10; border: none;
+  box-shadow: 0 2px 8px rgba(0,0,0,.18);
+  transition: background .2s, transform .2s, box-shadow .2s;
+  backdrop-filter: blur(4px);
+}
+.arrow-btn:hover {
+  background: #fff;
+  transform: translateY(-50%) scale(1.1);
+  box-shadow: 0 4px 16px rgba(0,0,0,.22);
+}
+.arrow-btn:active { transform: translateY(-50%) scale(.96); }
+
+/* ─── Shared reveal script helper ────────────────────────── */
+/* (JS added per-page via <script> tag) */

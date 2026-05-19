@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Restaurant – Pensiunea Prut</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,700;1,400&family=Open+Sans:ital,wght@0,300;0,400;0,600;1,300;1,400&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            accent: '#75A9BF', 'accent-dark': '#4E7180',
+            'text-main': '#242323', 'text-muted': '#737373', 'bg-secondary': '#F5F5F5',
+          },
+          fontFamily: {
+            serif: ['"EB Garamond"', 'Georgia', 'Palatino', 'serif'],
+            sans: ['"Open Sans"', 'sans-serif'],
+          },
+        }
+      }
+    }
+  </script>
+  <style>
+    /* ── Dish cards ── */
+    .dish-card { overflow: hidden; border: 1px solid #E5E5E5; transition: box-shadow .3s, transform .3s; }
+    .dish-card:hover { box-shadow: 0 8px 32px rgba(0,0,0,.1); transform: translateY(-3px); }
+    .dish-card .img-wrap { overflow: hidden; }
+    .dish-card img { width: 100%; height: 210px; object-fit: cover; display: block; transition: transform .6s ease; }
+    .dish-card:hover img { transform: scale(1.05); }
+
+    /* ── Menu cards ── */
+    .menu-card { overflow: hidden; border: 1px solid #E5E5E5; transition: box-shadow .3s, transform .3s; }
+    .menu-card:hover { box-shadow: 0 8px 28px rgba(0,0,0,.12); transform: translateY(-3px); }
+    .menu-card img { width: 100%; height: 340px; object-fit: cover; object-position: top; display: block; transition: transform .7s ease; }
+    .menu-card:hover img { transform: scale(1.03); }
+
+    /* ── Hours ── */
+    .hours-row { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #F0F0F0; font-size: 13px; }
+    .hours-row:last-child { border-bottom: none; }
+  </style>
+</head>
+<body class="bg-white">
+
+  <!-- NAV -->
+  <nav class="sticky top-0 z-50 bg-white border-b border-gray-100 shadow-sm">
+    <div class="max-w-[980px] mx-auto px-4 h-12 flex items-center gap-6">
+      <a href="index.html" class="nav-link">Home</a>
+      <a href="camere.html" class="nav-link hidden sm:inline">Camere</a>
+      <a href="restaurant.html" class="nav-link current hidden md:inline">Restaurant</a>
+      <a href="facilitati.html" class="nav-link hidden md:inline">Facilități</a>
+      <a href="galerie.html" class="nav-link hidden lg:inline">Galerie</a>
+      <a href="mai-mult.html" class="nav-link hidden lg:inline">Mai mult</a>
+      <div class="flex-1"></div>
+      <a href="index.html#contact" class="nav-link border border-[#242323] px-4 py-1.5 text-[10px] tracking-widest hover:bg-[#242323] hover:text-white transition-colors duration-200">REZERVARE</a>
+      <div class="flex items-center gap-1 border border-gray-300 px-2 py-1 cursor-pointer select-none">
+        <span style="font-size:10px;letter-spacing:.1em;">RO</span>
+        <svg width="8" height="5" viewBox="0 0 8 5" fill="none"><path d="M1 1l3 3 3-3" stroke="#242323" stroke-width="1.2" stroke-linecap="round"/></svg>
+      </div>
+    </div>
+  </nav>
+
+  <!-- BANNER — full event table spread -->
+  <div class="page-banner">
+    <img src="img/645792910_17948041635104546_4621326981739802134_n.jpg" alt="Restaurant Pensiunea Prut – masă festivă" />
+    <div class="page-banner-overlay">
+      <h1 class="page-banner-title">Restaurant</h1>
+      <p class="page-banner-sub">Bucătărie tradițională moldovenească</p>
+    </div>
+  </div>
+
+  <!-- ABOUT -->
+  <section class="bg-white py-14 px-6">
+    <div class="max-w-[680px] mx-auto text-center">
+      <h2 data-reveal class="font-serif text-[32px] font-bold text-[#242323] mb-4">Savoarea autentică a Moldovei</h2>
+      <hr data-reveal data-d="1" class="border-t border-gray-200 max-w-[50px] mx-auto my-4" />
+      <p data-reveal data-d="2" class="italic text-[#737373] text-sm leading-relaxed">
+        Restaurantul Pensiunii Prut vă invită să descoperiți gusturile autentice ale bucătăriei moldovenești.
+        Preparatele noastre sunt gătite cu ingrediente proaspete, culese din grădina proprie și de la producătorii locali.
+        Terasa cu vedere spre natură transformă fiecare masă într-o experiență memorabilă.
+      </p>
+    </div>
+  </section>
+
+  <!-- SPECIALITĂȚI -->
+  <section class="max-w-[980px] mx-auto px-4 pb-16">
+    <h2 data-reveal class="font-serif text-[26px] font-bold text-[#242323] text-center mb-8">Specialitățile casei</h2>
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+
+      <!-- Grilled salmon -->
+      <div data-reveal data-d="1" class="dish-card">
+        <div class="img-wrap">
+          <img src="img/645919952_17948041626104546_8678581559680132285_n.jpg" alt="Pește la grătar" />
+        </div>
+        <div class="p-5">
+          <h3 class="font-serif text-lg font-bold mb-1">Pește la grătar</h3>
+          <p class="text-[#737373] text-sm leading-relaxed">
+            Fripturi de somon la grătar, condimentate și servite cu sos de ierburi aromate,
+            morcovi și garnitură de legume de sezon.
+          </p>
+        </div>
+      </div>
+
+      <!-- Smoked fish platter -->
+      <div data-reveal data-d="2" class="dish-card">
+        <div class="img-wrap">
+          <img src="img/645732087_17948041599104546_1222141695834939599_n.jpg" alt="Platou de pește afumat" />
+        </div>
+        <div class="p-5">
+          <h3 class="font-serif text-lg font-bold mb-1">Platou de pește afumat</h3>
+          <p class="text-[#737373] text-sm leading-relaxed">
+            Asortiment de somon afumat, calmar și pate de pește, decorat cu măsline,
+            lămâie și verdeață. Ideal ca aperitiv la eveniment.
+          </p>
+        </div>
+      </div>
+
+      <!-- Cold cuts platter -->
+      <div data-reveal data-d="3" class="dish-card">
+        <div class="img-wrap">
+          <img src="img/645819895_17948041662104546_804258183541001899_n.jpg" alt="Platou rece asort" />
+        </div>
+        <div class="p-5">
+          <h3 class="font-serif text-lg font-bold mb-1">Platou rece asortat</h3>
+          <p class="text-[#737373] text-sm leading-relaxed">
+            Carne de curcan, șuncă, rulouri cu creveți și rodie, măsline verzi și negre,
+            lămâie — aranjat festiv pentru orice ocazie.
+          </p>
+        </div>
+      </div>
+
+      <!-- Răcitură -->
+      <div data-reveal data-d="1" class="dish-card">
+        <div class="img-wrap">
+          <img src="img/645707312_17948041617104546_9099554513703615144_n.jpg" alt="Răcitură moldovenească" />
+        </div>
+        <div class="p-5">
+          <h3 class="font-serif text-lg font-bold mb-1">Răcitură moldovenească</h3>
+          <p class="text-[#737373] text-sm leading-relaxed">
+            Carne fiartă îndelung în aspic limpede, cu ouă de prepeliță, morcov și
+            pătrunjel. Un clasic al bucătăriei moldovenești de sărbătoare.
+          </p>
+        </div>
+      </div>
+
+      <!-- Charcuterie board -->
+      <div data-reveal data-d="2" class="dish-card">
+        <div class="img-wrap">
+          <img src="img/645843127_17948041689104546_6729414793279323577_n.jpg" alt="Platou de brânzeturi și mezeluri" />
+        </div>
+        <div class="p-5">
+          <h3 class="font-serif text-lg font-bold mb-1">Platou de brânzeturi și mezeluri</h3>
+          <p class="text-[#737373] text-sm leading-relaxed">
+            Șuncă, salam, brânzeturi asortate (Emmental, cu mucegai albastru), castraveciori,
+            nuci și murături — perfect alături de un pahar de vin de casă.
+          </p>
+        </div>
+      </div>
+
+      <!-- Fruit platter -->
+      <div data-reveal data-d="3" class="dish-card">
+        <div class="img-wrap">
+          <img src="img/645871507_17948041644104546_8416304141404659415_n.jpg" alt="Platou de fructe" />
+        </div>
+        <div class="p-5">
+          <h3 class="font-serif text-lg font-bold mb-1">Platou de fructe</h3>
+          <p class="text-[#737373] text-sm leading-relaxed">
+            Portocale, struguri și ananas proaspăt, aranjate festiv pe piedestal.
+            Desertul perfect la finalul oricărui eveniment sau mese în familie.
+          </p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- MENU CARDS -->
+  <section class="bg-[#F5F5F5] py-14 px-6">
+    <div class="max-w-[980px] mx-auto">
+      <h2 data-reveal class="font-serif text-[26px] font-bold text-[#242323] text-center mb-2">Meniu</h2>
+      <p data-reveal data-d="1" class="text-center text-[#737373] text-sm italic mb-8">Preparate disponibile zilnic</p>
+      <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+
+        <div data-reveal data-d="1" class="menu-card">
+          <img src="img/498943679_688248353950464_3035984769452150833_n.jpg" alt="Mic dejun: omletă, ochiuri, clătite, crenvuști, sandwich cald" />
+        </div>
+
+        <div data-reveal data-d="2" class="menu-card">
+          <img src="img/496935504_688248350617131_7726969925911080049_n.jpg" alt="Ciorbe: zeamă cu tăiței, borș cu sfeclă roșie, borș cu varză, Soleancă" />
+        </div>
+
+        <div data-reveal data-d="3" class="menu-card">
+          <img src="img/493477623_688248390617127_7507779441294031309_n.jpg" alt="Salate: de varză, asortată, vitamin" />
+        </div>
+
+        <div data-reveal data-d="4" class="menu-card">
+          <img src="img/499415064_688248130617153_7448804966938267893_n.jpg" alt="Garnituri: cartofi pai/bile, piureu, cartofi țărănești, orez" />
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- HOURS & INFO -->
+  <section class="bg-white py-14 px-6">
+    <div class="max-w-[600px] mx-auto grid grid-cols-1 sm:grid-cols-2 gap-12">
+
+      <div data-reveal>
+        <h3 class="font-serif text-xl font-bold text-[#242323] mb-5">Program</h3>
+        <div class="hours-row"><span class="text-[#737373]">Luni – Vineri</span><span class="font-medium">08:00 – 22:00</span></div>
+        <div class="hours-row"><span class="text-[#737373]">Sâmbătă</span><span class="font-medium">08:00 – 23:00</span></div>
+        <div class="hours-row"><span class="text-[#737373]">Duminică</span><span class="font-medium">09:00 – 21:00</span></div>
+        <p class="text-xs text-[#737373] italic mt-4">* Mic dejun inclus în prețul cazării (07:30 – 10:00)</p>
+      </div>
+
+      <div data-reveal data-d="1">
+        <h3 class="font-serif text-xl font-bold text-[#242323] mb-5">Informații</h3>
+        <ul class="space-y-3 text-sm text-[#737373]">
+          <li class="flex gap-2"><span class="text-[#75A9BF]">→</span> Meniu zilnic cu produse de sezon</li>
+          <li class="flex gap-2"><span class="text-[#75A9BF]">→</span> Meniuri personalizate pentru grupuri și evenimente</li>
+          <li class="flex gap-2"><span class="text-[#75A9BF]">→</span> Vin de casă și băuturi tradiționale</li>
+          <li class="flex gap-2"><span class="text-[#75A9BF]">→</span> Terasă în aer liber disponibilă</li>
+          <li class="flex gap-2"><span class="text-[#75A9BF]">→</span> Rezervări: office@pensiuneaprut.md</li>
+        </ul>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="bg-[#242323] text-white py-5 text-center">
+    <p class="text-xs tracking-wide text-gray-300 mb-1">
+      office@pensiuneaprut.md &nbsp;|&nbsp; s. Cahul, Republica Moldova &nbsp;|&nbsp; + (373) 000 000 00
+    </p>
+    <p class="text-xs text-gray-500">© 2024 Pensiunea Prut</p>
+  </footer>
+
+  <script>
+    const obs = new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('revealed'); obs.unobserve(e.target); } });
+    }, { threshold: 0.12 });
+    document.querySelectorAll('[data-reveal]').forEach(el => obs.observe(el));
+  </script>
+</body>
+</html>
